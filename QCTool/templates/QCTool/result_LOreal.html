@@ -1,0 +1,78 @@
+{% extends "QCTool/result.html" %}
+{% block amp %}
+    {% if amp %}
+        <div class="row">
+            <div class="large-12 large-centered columns toggTarget word-break">
+                <div class="callout secondary">
+                    <h4>AMP Script: <a href="#" class="toggle">Expand/Hide</a></h4>
+                    <p>
+                        {% autoescape off %}
+                            {{ amp }}
+                        {% endautoescape %}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <hr/>
+    {% endif %}
+{% endblock %}
+{% block open_counter %}
+    <div class="row">
+        <div class="large-12 large-centered columns toggTarget word-break">
+            <div class="callout secondary">
+                <h4>Open Counter: </h4>
+                <p>{{ openCounter }}</p>
+            </div>
+        </div>
+    </div>
+    <hr/>
+{% endblock %}
+{% block preview_text %}
+    <div class="row">
+        <div class="large-12 large-centered columns toggTarget word-break">
+            <div class="callout secondary">
+                <h4>Preview Text: </h4>
+                <p>{{ preview_text }}</p>
+            </div>
+        </div>
+    </div>
+    <hr/>
+{% endblock %}
+{% block preheader %}
+    <div class="row">
+        <div class="large-12 large-centered columns toggTarget word-break">
+            <div class="callout secondary">
+                <h4>Preheader: </h4>
+                <p>{{ preheader }}</p>
+            </div>
+        </div>
+    </div>
+    <hr/>
+{% endblock %}
+{% block alias_mapping %}
+    <div class="row">
+        <div class="large-12 large-centered columns">
+            <div class="callout secondary">
+                <h4>Alias Mapping:</h4>
+                {% if aliasList %}
+                    <table>
+                        <tr>
+                            <th class="text-left" width="200">Alias Name</th>
+                            <th class="text-left" width="400">Raw Link</th>
+{#                            <th class="text-left" width="150">GA utm code mapped?</th>#}
+                            <th class="text-left" width="150">Is alias duplicated?</th>
+                        </tr>
+                        {% for aliasObj in aliasList %}
+                            <tr>
+                                <td {% if aliasObj.0 == "None/Empty" %}style="background-color: #f04124; color: #ffffff;" {% endif %}>{{ aliasObj.0 }}</td>
+                                <td><a href="{{ aliasObj.1 }}" target="_blank">{{ aliasObj.1 }}</a></td>
+{#                                <td {% if aliasObj.2 == "True" %}style="background-color: #74bfdd; color: #000000;" {% elif aliasObj.2 == "False" %}style="background-color: #f08a24; color: #000000;" {% endif %}>{{ aliasObj.2 }}</td>#}
+                                <td {% if aliasObj.3 == "True" %}style="background-color: #f04124; color: #ffffff;" {% endif %}>{{ aliasObj.3 }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

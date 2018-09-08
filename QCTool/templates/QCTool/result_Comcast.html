@@ -1,0 +1,22 @@
+{% extends "QCTool/result.html" %}
+{% block alias_mapping %}
+    <div class="row">
+        <div class="large-12 large-centered columns">
+            <div class="callout secondary">
+                <h4>Link Mapping:</h4>
+                {% if aliasList %}
+                    <table>
+                        <tr>
+                            <th class="text-left" width="400">Raw Link</th>
+                        </tr>
+                        {% for aliasObj in aliasList %}
+                            <tr>
+                                <td><a href="{{ aliasObj.1 }}" target="_blank">{{ aliasObj.1 }}</a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

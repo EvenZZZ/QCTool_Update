@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Campaign Result {% if cid %}for {{ cid }}{% endif %}</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/foundation.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+    <script src="{% static 'js/vendor/jquery.js' %}"></script>
+    <script>
+        $(function(){
+            $('.toggle').click(function(){
+                $(this).parents().siblings('.toggTarget').toggle();
+                return false;
+            });
+        });
+    </script>
+</head>
+<body>
+{#<a id="openonly" href="#" target="_blank"></a>#}
+    {% block amp %}
+    {% endblock %}
+    {% block open_counter %}
+    {% endblock %}
+    {% block preview_text %}
+    {% endblock %}
+    {% block preheader %}
+    {% endblock %}
+    <div class="row">
+        <div class="large-12 large-centered columns toggTarget word-break">
+            <div class="callout secondary">
+                <h4>Title:</h4>
+                <p>{{ title }}</p>
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <div class="row">
+        <div class="large-12 large-centered columns">
+            <div class="callout secondary">
+                <h4>Errors:</h4>
+                {% if errorList %}
+                    <table>
+                        {% load dict_extras %}
+                        {% load merge_string %}
+                        {% for error in errorList %}
+                            <tr>
+                                <td width="50">HTML</td>
+                                <td width="1"></td>
+                                <td width="150">Line: {{ error.0 }}{% if error.2 != "over500" %},Offset: {{ error.1 }}{% endif %}</td>
+                                <td width="500" class="word-break">
+                                    {% if error.4 == "see comments" %}
+                                        {{ error.4 }}
+                                    {% elif error.2 == "returnInAlias" %}
+                                        {{ error.5 }}
+                                    {% else %}
+                                        {% with a=":"|merge_str:error.1 %}{{ error.4|slice:a }}{% endwith %}
+                                        {% with b=error.1 %}<span style="background-color: #ffff00; color: #cf2a0e;">{{ error.4|key:b }}</span>{% endwith %}
+                                        {% with num=error.1|add:1 %}{% with c=num|merge_str:":" %}{{ error.4|slice:c }}{% endwith %}{% endwith %}
+                                    {% endif %}
+                                </td>
+                                <td width="1"></td>
+                                <td width="200">{{ errMsg|key:error.2 }}{% if error.3 %}{{ error.3 }}{% endif %}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <hr/>
+    <div class="row">
+        <div class="large-12 large-centered columns">
+            <div class="callout secondary">
+                <h4>Link Count:</h4>
+                {% if aCount %}
+                    <table>
+                        <tr>
+                            <td width="200">Plain Link ({{aliasIdentifier}} + Mail + Tel)</td>
+                            {%  with total=aCount.alias|add:aCount.mail|add:aCount.tel %}
+                                <td width="200" {% if aCount.plain_link == total %}style="background-color: #43ac6a; color: #ffffff;"{% else %}style="background-color: #f04124; color: #ffffff;" {% endif %}>{{ aCount.plain_link }}</td>
+                            {% endwith %}
+                        </tr>
+                        <tr>
+                            <td width="200">{{aliasIdentifier}}</td>
+                            <td width="200">{{ aCount.alias }}</td>
+                        </tr>
+                        <tr>
+                            <td width="200">Mail Link</td>
+                            <td width="200">{{ aCount.mail }}</td>
+                        </tr>
+                        <tr>
+                            <td width="200">Tel Link</td>
+                            <td width="200">{{ aCount.tel }}</td>
+                        </tr>
+                        <tr>
+                            <td width="200">Conversion</td>
+                            <td width="200">{{ aCount.conversion }}</td>
+                        </tr>
+                        <tr>
+                            <td width="200">View Email Link</td>
+                            <td width="200">{{ aCount.view_email }}</td>
+                        </tr>
+                        <tr>
+                            <td width="200">Empty Link</td>
+                            <td width="200" {% if aCount.empty_link > 1 %}style="background-color: #f04124; color: #ffffff;" {% endif %}>{{ aCount.empty_link }}</td>
+                        </tr>
+                        <tr>
+                            <td width="200">Empty {{aliasIdentifier}}</td>
+                            <td width="200" {% if aCount.empty_alias > 1 %}style="background-color: #f04124; color: #ffffff;" {% endif %}>{{ aCount.empty_alias }}</td>
+                        </tr>
+                        
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% block alias_dict %}
+    {% endblock %}
+    {% block alias_mapping %}
+    {% endblock %}
+    <div class="row">
+        <div class="large-12 large-centered columns">
+            <div class="callout secondary">
+                <h4>Images and Alts:</h4>
+                {% if imgList %}
+                    <table>
+                        <tr>
+                            <th class="text-left" width="60%">Image</th>
+                            <th class="text-left">Alts</th>
+                        </tr>
+                        {% for imgObj in imgList %}
+                            <tr>
+                                <td>
+                                    <img src="{{ imgObj.src }}" alt="{{ imgObj.alt }}"><br>
+                                    {{ imgObj.src }}
+                                </td>
+                                {% if imgObj.alt == None %}
+                                    <td style="background-color: #f08a24; color: #000000;">No alt attribute</td>
+                                {% elif imgObj.alt == "" %}
+                                    <td style="background-color: #f08a24; color: #000000;">Empty alt</td>
+                                {% else %}
+                                    <td>
+                                        {% autoescape off %}
+                                            {{ imgObj.alt }}
+                                        {% endautoescape %}
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

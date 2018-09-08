@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Litmus Helper</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}" />
+    <script src="{% static 'js/jquery-2.1.1.min.js' %}"></script>
+    <script src="{% static 'js/angular.min.js' %}"></script>
+    <script src="{% static 'js/litmusHelper.js' %}"></script>
+</head>
+<body>
+    <div class="container" ng-app="Linker">
+        <div class="row"><div class="col-lg-8"><h2>Input the link of your render test&nbsp;&nbsp;<small>(Not the published one)</small></h2></div></div>
+        <div class="row">
+            <div class="col-lg-12">
+                <form role="form" class="form-horizontal">
+                    <div class="form-group" ng-controller="linkInput">
+                        <label for="Link" class="col-lg-1">Link here:</label>
+
+                        <div class="col-lg-11">
+                            <input type="text" class="form-control" id="inputLink" placeholder="Enter link" ng-model="data.litmusURL" ng-change="change()">
+                            <p class="bg-danger {$data.warningDisplay$}" style="margin-top: 10px; padding: 5px 10px;">Invalid link. Please input your link.</p></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <dl class="dl-horizontal {$data.listDisplay$}" ng-controller="renderLink">
+                    <div ng-repeat="device in config">
+                        <dt>{$device.name$}</dt><dd><a href='{$renderLink(device)$}'>{$renderLink(device)$}</a></dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

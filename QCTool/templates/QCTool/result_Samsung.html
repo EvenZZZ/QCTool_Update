@@ -1,0 +1,51 @@
+{% extends "QCTool/result.html" %}
+
+{% block alias_dict %}
+    <div class="row">
+        <div class="large-12 large-centered columns">
+            <div class="callout secondary">
+                <h4>Label Dict:</h4>
+                {% if aliasDict %}
+                    <table>
+                        <tr>
+                            <th class="text-left" width="200">Label Name</th>
+                            <th class="text-left" width="200">Duplicated Times</th>
+                        </tr>
+                        {% for alias, times in aliasDict.items %}
+                            <tr>
+                                <td>{{ alias }}</td>
+                                <td {% if times > 1 %}style="background-color: #f04124; color: #ffffff;" {% endif %}>{{ times }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block alias_mapping %}
+    <div class="row">
+        <div class="large-12 large-centered columns">
+            <div class="callout secondary">
+                <h4>Label Mapping:</h4>
+                {% if aliasList %}
+                    <table>
+                        <tr>
+                            <th class="text-left" width="200">Label Name</th>
+                            <th class="text-left" width="400">Raw Link</th>
+                            <th class="text-left" width="150">Is Label duplicated?</th>
+                        </tr>
+                        {% for aliasObj in aliasList %}
+                            <tr>
+                                <td {% if aliasObj.0 == "None/Empty" %}style="background-color: #f04124; color: #ffffff;" {% endif %}>{{ aliasObj.0 }}</td>
+                                <td><a href="{{ aliasObj.1 }}" target="_blank">{{ aliasObj.1 }}</a></td>
+                                <td {% if aliasObj.3 == "True" %}style="background-color: #f04124; color: #ffffff;" {% endif %}>{{ aliasObj.3 }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

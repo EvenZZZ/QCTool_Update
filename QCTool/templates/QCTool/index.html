@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QCTool</title>
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/foundation.min.css' %}" />
+</head>
+<body>
+    <div class="row"><h4 class="large-8 columns"><a href="./litmusHelper">Litmus Helper is here, click me!</a></h4></div>
+    <div class="row"><h2 class="large-8 columns">Input your code here</h2></div>
+    <div class="row">
+        <div class="large-8 columns">
+            <form action="{% url 'QCTool:result' %}" method="post">
+                {% csrf_token %}
+                <p><textarea name="source" id="source" cols="100" rows="30"></textarea></p>
+                <fieldset>
+                    <legend>Choose The Account</legend>
+                    <input type="radio" name="account" value="Standard" id="accountStandard" required checked><label for="accountStandard">Standard</label>
+                    <input type="radio" name="account" value="Comcast" id="accountComcast"><label for="accountComcast">Comcast</label>
+                    <input type="radio" name="account" value="LOreal" id="accountLOReal"><label for="accountLOReal">L’Oréal</label>
+                    <input type="radio" name="account" value="Samsung" id="accountSamsung"><label for="accountSamsung">Samsung</label>
+                </fieldset>
+                <input id="submit" class="button" type="submit" value="Submit"/>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
